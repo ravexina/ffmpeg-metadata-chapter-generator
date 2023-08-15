@@ -1,5 +1,5 @@
 # ffmpeg-metadata-chapter-generator
-A Python script that generates an FFmpeg metadata file to add chapters to MP4 files.
+A Python script that generates an FFmpeg metadata file to add chapters to video (MP4/webm/...) files.
 
 Usage:
 
