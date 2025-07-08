@@ -1,8 +1,15 @@
+import re
 import argparse
 
 
 def process_line(line):
-    time_str, chapter_name = line.strip().split("\t")
+    match = re.match(r"(\d{2}:\d{2}:\d{2})", line.strip())
+    if not match:
+        raise ValueError(f"Invalid timestamp on line: {line}")
+
+    time_str = match.group(1)
+    chapter_name = line[match.end():].strip()
+
     hh, mm, ss = map(int, time_str.split(":"))
     line_ms = (hh * 3600 + mm * 60 + ss) * 1000
     return line_ms, chapter_name
