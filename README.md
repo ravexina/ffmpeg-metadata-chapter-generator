@@ -23,6 +23,10 @@ Imagine you have a setlist file named setlist.txt containing a set of data that 
 00:18:27	5. Fifth Chapter Name
 ```
 
+> [!Tip]
+> Supported timestamp formats: `HH:MM:SS`, `H:MM:SS`, `MM:SS`, `M:SS`
+
+
 Using this script, you can create an `FFMETADATA` file containing a list of chapters as follows and use it with `ffmpeg` to add these chapters to your MP4 file:
 
 ```

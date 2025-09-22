@@ -3,11 +3,12 @@ import argparse
 
 
 def process_line(line):
-    match = re.match(r"(\d{2}:\d{2}:\d{2})", line.strip())
+    # Search for HH:MM:SS/H:MM:SS or MM:SS/M:SS
+    match = re.match(r"(\d{1,2}:\d{2}:\d{2})|(\d{1,2}:\d{2})", line.strip())
     if not match:
         raise ValueError(f"Invalid timestamp on line: {line}")
 
-    time_str = match.group(1)
+    time_str = match.group(1) or f"00:{match.group(2)}"
     chapter_name = line[match.end():].strip()
 
     hh, mm, ss = map(int, time_str.split(":"))
