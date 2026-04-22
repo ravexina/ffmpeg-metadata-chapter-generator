@@ -1,8 +1,12 @@
+#!/usr/bin/env python3
+
 import re
 import argparse
+from pathlib import Path
+from typing import Tuple
 
 
-def process_line(line):
+def process_line(line: str) -> Tuple[int, str]:
     # Search for HH:MM:SS/H:MM:SS or MM:SS/M:SS
     match = re.match(r"(\d{1,2}:\d{2}:\d{2})|(\d{1,2}:\d{2})", line.strip())
     if not match:
@@ -16,9 +20,8 @@ def process_line(line):
     return line_ms, chapter_name
 
 
-def convert_chapters(input_file, output_file):
-    with open(input_file, "r") as f:
-        lines = f.readlines()
+def convert_chapters(input_file: Path, output_file: Path) -> None:
+    lines = input_file.read_text().strip().splitlines(keepends=True)
 
     output = []
     output.append(";FFMETADATA1\n")
@@ -44,8 +47,7 @@ def convert_chapters(input_file, output_file):
         )
         output.append(chapter_info)
 
-    with open(output_file, "w") as f:
-        f.write("\n".join(output))
+    output_file.write_text("\n".join(output))
 
 
 if __name__ == "__main__":
@@ -53,8 +55,11 @@ if __name__ == "__main__":
         description="Convert chapters file to FFmpeg metadata format."
     )
     parser.add_argument("input_file", help="Path to the input chapters file.")
-    parser.add_argument("output_file", help="Path to the output FFmpeg metadata file.")
+    parser.add_argument("output_file", nargs="?", help="Path to the output FFmpeg metadata file (optional).")
     args = parser.parse_args()
 
-    convert_chapters(args.input_file, args.output_file)
-    print("Conversion complete.")
+    input_file = Path(args.input_file)
+    output_file = Path(args.output_file) if args.output_file else Path(input_file).with_suffix(".ffmeta")
+
+    convert_chapters(input_file, output_file)
+    print(f"Conversion complete! Chapter file saved to: '{output_file}'")

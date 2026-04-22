@@ -4,6 +4,10 @@ A Python script that generates an FFmpeg metadata file to add chapters to video 
 Usage:
 
 ```bash
+# Automatically generate a chapter file: "setlist.ffmeta"
+$ python3 ffmpeg-chapter-generator.py setlist.txt
+
+# Specify a concrete chapter file name: "chapters.ffmeta"
 $ python3 ffmpeg-chapter-generator.py setlist.txt chapters.ffmeta
 ```
 
